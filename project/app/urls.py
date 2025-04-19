@@ -6,10 +6,11 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from .views import KlassViewSet, TeacherViewSet, StudentViewSet
 
+
 router = DefaultRouter()
-router.register(r'klass', KlassViewSet)
-router.register(r'teachers', TeacherViewSet)
-router.register(r'students', StudentViewSet)
+router.register(r'klass', KlassViewSet, basename='klass')
+router.register(r'teachers', TeacherViewSet, basename='teacher')
+router.register(r'students', StudentViewSet, basename='student')
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -25,8 +26,18 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # path('admin/', admin.site.urls),
+    # path('', include(router.urls)),
+    # path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+
+    path('klass/', KlassViewSet.as_view({'get': 'list', 'post': 'create',})),
+    path('klass/<int:pk>/', KlassViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+
+    path('teacher/', TeacherViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('teacher/<int:pk>/', TeacherViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+
+    path('student/', StudentViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('student/<int:pk>/', StudentViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 ]

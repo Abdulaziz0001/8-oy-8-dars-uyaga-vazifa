@@ -1,29 +1,24 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
-from .models import Klass
+from .models import Klass, Teacher, Student
 from .serializer import KlassSerializer, TeacherSerializer, StudentSerializer
 
 
 # Create your views here.
 
-
-
-class KlassViewSet(ViewSet):
+class KlassViewSet(ModelViewSet):
     queryset = Klass.objects.all()
     serializer_class = KlassSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
 
-class TeacherViewSet(ViewSet):
-    queryset = Klass.objects.filter()
+class TeacherViewSet(ModelViewSet):
+    queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
 
-class StudentViewSet(ViewSet):
-    queryset = Klass.objects.filter()
-    serializer_class = TeacherSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class StudentViewSet(ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
